@@ -37,7 +37,6 @@ if upload_file:
 
 st.header("Processed Files Dashboard")
 
-# Use session_state to avoid refresh problems
 if "resume_list" not in st.session_state:
     st.session_state.resume_list = []
 
@@ -50,10 +49,9 @@ if st.button("Load Processed Resumes"):
         st.error("Backend server not reachable")
         st.stop()
 
-# Render the stored list (does not disappear)
 for resume in st.session_state.resume_list:
-    st.write(f"📄 {resume['filename']}")
-    st.write(f"📅 {resume['created_at']}")
+    st.write(f"{resume['filename']}")
+    st.write(f"{resume['created_at']}")
 
     if st.button(f"View Content ({resume['document_id']})", key=resume["document_id"]):
         detail = requests.get(f"{API_BASE}/api/resume/{resume['document_id']}").json()
